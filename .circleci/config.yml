@@ -1,0 +1,40 @@
+version: 2.1
+jobs:
+  test-changed:
+    docker:
+      - image: cimg/node:22.14
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Fetch base branch
+          command: git fetch origin main
+      - run:
+          name: Run tests related to changes
+          command: npx vitest --changed origin/main --run --reporter=agent
+  test-all:
+    docker:
+      - image: cimg/node:22.14
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - run:
+          name: Run all tests
+          command: npm test
+workflows:
+  pr-checks:
+    jobs:
+      - test-changed:
+          filters:
+            branches:
+              ignore: main
+  main-full:
+    jobs:
+      - test-all:
+          filters:
+            branches:
+              only: main

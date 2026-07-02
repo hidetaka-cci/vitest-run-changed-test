@@ -1,0 +1,13 @@
+{
+  "name": "vitest-run-changed-test",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest --run",
+    "test:changed": "vitest --changed --run --reporter=agent"
+  },
+  "devDependencies": {
+    "vitest": "4.1.8"
+  }
+}
